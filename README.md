@@ -74,6 +74,26 @@ That gives you a Mozart-heavy exploratory run without changing the repo’s chec
 
 If you want one combined Mozart + Chopin corpus, build a curated manifest rather than pointing the extractor at the entire `data/raw/full-pieces/` tree, because the tree contains duplicate Mozart filenames at multiple locations.
 
+## Roman Numeral Harmony Lane
+
+There is a separate experimental lane for Roman numeral and functional harmony analysis under `research_lanes/roman_numeral_harmony/`.
+
+It is intentionally separate from the current symbolic pipeline and uses an adapter-based backend design so the default `music21_light` analysis can run without any heavy model dependency.
+
+Use this lane when you want to inspect:
+
+- Roman numeral syntax
+- harmonic rhythm and cadence-like motion
+- texture and melody interactions with harmony
+- pairwise similarity derived from Roman numeral features
+
+The intended workflow is:
+
+1. Run the light backend first.
+2. Inspect the cached event tables in `research_lanes/roman_numeral_harmony/cache/<run_id>/events/`.
+3. Evaluate the features in `research_lanes/roman_numeral_harmony/reports/`.
+4. Only then try an optional RNBert or MusicBERT-style backend if you have a separate environment or checkpoint.
+
 ## Non-Goals
 
 - No training.
@@ -96,6 +116,8 @@ If you want one combined Mozart + Chopin corpus, build a curated manifest rather
 - `reports/`: generated Markdown summaries.
 - `research_lanes/musicological_features/`: experimental lane for musicologically motivated symbolic features.
 - `research_lanes/musicological_features/feature_metadata/`: machine-readable experimental feature metadata.
+- `research_lanes/roman_numeral_harmony/`: experimental Roman numeral / functional harmony lane.
+- `research_lanes/roman_numeral_harmony/feature_metadata/`: machine-readable metadata for the Roman numeral lane.
 - `external/mxl-toolbox/`: optional external checkout or vendored toolbox.
 
 ## Quick Start
@@ -140,11 +162,13 @@ That writes `audio_embeddings.npy` and `embedding_metadata.csv` into the output 
 - `fluidsynth` must be installed and available on `PATH`.
 - A General MIDI soundfont (`.sf2`) must be available locally if you want to render MIDI to WAV or compute new audio embeddings.
 - Point the renderer at it with `--soundfont /absolute/path/to/file.sf2` or set `MXL_CLAP_SOUND_FONT=/absolute/path/to/file.sf2` in your shell. The code also accepts the alias `MXL_CLAP_SOUNDFONT`.
+- If MusicXML repeat markup is malformed, the MIDI writer falls back to a flattened score so rendering can still proceed.
 - The CLAP backend is not vendored. Install `laion-clap` in the environment before using `scripts/compute_embeddings.py` with the default backend.
 - The dummy backend is available without CLAP and is intended for end-to-end pipeline smoke tests.
 - `scripts/compare_excerpts.py` now writes family-specific similarity columns alongside the global score.
 - `scripts/extract_symbolic_features.py` accepts `--feature-sets core` and optional experimental feature sets.
 - `research_lanes/musicological_features/scripts/run_musicological_feature_experiment.py` defaults to the shared prefix excerpt manifest for the ten-piece Mozart/Chopin corpus and stays core-only unless you pass experimental feature sets.
+- `research_lanes/roman_numeral_harmony/scripts/run_rn_harmony_experiment.py` defaults to the light backend and writes inspectable Roman numeral event caches plus family-specific similarity outputs.
 - `scripts/extract_prefix_excerpts.py` already supports longer prefix lengths such as `32` and `64`; shorter pieces are clamped to their available measure count.
 
 ## External MXL Toolbox

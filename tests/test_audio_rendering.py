@@ -4,6 +4,7 @@ import subprocess
 from pathlib import Path
 
 from music21 import meter, note, stream
+from music21.repeat import ExpanderException
 
 import score_embedding_lab.audio_rendering as audio_rendering
 
@@ -23,6 +24,35 @@ def test_coerce_score_to_piano_adds_piano_instrument():
     coerced = audio_rendering._coerce_score_to_piano(make_tiny_score())
     instruments = list(coerced.parts[0].recurse().getElementsByClass("Instrument"))
     assert any(inst.__class__.__name__ == "Piano" for inst in instruments)
+
+
+def test_write_midi_falls_back_to_flatten_when_repeat_expansion_fails(tmp_path: Path, monkeypatch):
+    midi_path = tmp_path / "excerpt.mid"
+
+    class FlatScore:
+        def write(self, fmt, fp):
+            Path(fp).write_bytes(b"midi")
+            return Path(fp)
+
+    class FailingScore:
+        def __init__(self):
+            self.flatten_called = False
+
+        def write(self, fmt, fp):
+            raise ExpanderException("cannot expand Stream: badly formed repeats or repeat expressions")
+
+        def flatten(self):
+            self.flatten_called = True
+            return FlatScore()
+
+    failing_score = FailingScore()
+    monkeypatch.setattr(audio_rendering, "_coerce_score_to_piano", lambda _score: failing_score)
+
+    result = audio_rendering.write_midi(make_tiny_score(), midi_path)
+
+    assert result == midi_path
+    assert failing_score.flatten_called is True
+    assert midi_path.exists()
 
 
 def test_render_midi_to_wav_builds_fluidsynth_command(tmp_path: Path, monkeypatch):
@@ -68,6 +98,8 @@ def test_render_midi_to_wav_builds_fluidsynth_command(tmp_path: Path, monkeypatc
 def test_render_midi_to_wav_requires_soundfont_and_binary(tmp_path: Path, monkeypatch):
     midi_path = tmp_path / "excerpt.mid"
     midi_path.write_bytes(b"midi")
+    soundfont_path = tmp_path / "piano.sf2"
+    soundfont_path.write_bytes(b"soundfont")
     missing_soundfont = tmp_path / "missing.sf2"
 
     monkeypatch.setattr(audio_rendering.shutil, "which", lambda _: None)
@@ -76,7 +108,7 @@ def test_render_midi_to_wav_requires_soundfont_and_binary(tmp_path: Path, monkey
         audio_rendering.render_midi_to_wav(
             midi_path=midi_path,
             out_path=tmp_path / "excerpt.wav",
-            soundfont_path=missing_soundfont,
+            soundfont_path=soundfont_path,
         )
     except NotImplementedError as exc:
         assert "FluidSynth" in str(exc)

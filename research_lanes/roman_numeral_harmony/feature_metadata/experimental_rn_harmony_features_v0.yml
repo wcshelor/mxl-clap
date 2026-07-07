@@ -1,0 +1,504 @@
+rn_defaults: &rn_defaults
+  feature_set: experimental_rn_harmony_v0
+  status: experimental
+  requires_rn_backend: true
+  requires_chordify: true
+  requires_key_estimation: true
+  requires_melody_extraction: false
+  requires_texture_alignment: false
+  expected_direction_mozart_vs_chopin: unclear
+  risk_level: high
+
+rn_flag_defaults: &rn_flag_defaults
+  feature_set: experimental_rn_harmony_v0
+  status: experimental
+  requires_rn_backend: true
+  requires_chordify: false
+  requires_key_estimation: false
+  requires_melody_extraction: false
+  requires_texture_alignment: false
+  expected_direction_mozart_vs_chopin: unclear
+  risk_level: low
+
+texture_defaults: &texture_defaults
+  feature_set: experimental_rn_harmony_v0
+  status: experimental
+  requires_rn_backend: true
+  requires_chordify: true
+  requires_key_estimation: true
+  requires_melody_extraction: false
+  requires_texture_alignment: true
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+  risk_level: medium
+
+melody_defaults: &melody_defaults
+  feature_set: experimental_rn_harmony_v0
+  status: experimental
+  requires_rn_backend: true
+  requires_chordify: true
+  requires_key_estimation: true
+  requires_melody_extraction: true
+  requires_texture_alignment: true
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+  risk_level: high
+
+experimental__rn_harmony__backend_available:
+  <<: *rn_flag_defaults
+  name: experimental__rn_harmony__backend_available
+  family: rn_harmony
+  description: Whether the Roman numeral backend was available.
+  musicological_claim: Pipeline availability metadata only.
+  known_limits: Not a musicological measurement.
+  requires_rn_backend: false
+  requires_chordify: false
+  requires_key_estimation: false
+  expected_direction_mozart_vs_chopin: unclear
+  risk_level: low
+
+experimental__rn_harmony__analysis_success:
+  <<: *rn_flag_defaults
+  name: experimental__rn_harmony__analysis_success
+  family: rn_harmony
+  description: Whether analysis produced at least one Roman numeral event.
+  musicological_claim: Indicates backend output coverage.
+  known_limits: Conflates musical difficulty with runtime failure.
+  requires_rn_backend: false
+  requires_chordify: false
+  requires_key_estimation: false
+  expected_direction_mozart_vs_chopin: unclear
+  risk_level: low
+
+experimental__rn_harmony__rn_event_count:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__rn_event_count
+  family: rn_harmony
+  description: Total number of Roman numeral events.
+  musicological_claim: Coarse measure of harmonic segmentation density.
+  known_limits: Depends on slicing and chordification granularity.
+
+experimental__rn_harmony__rn_label_entropy:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__rn_label_entropy
+  family: rn_harmony
+  description: Entropy of Roman numeral labels.
+  musicological_claim: Captures variety of functional labels.
+  known_limits: Sensitive to backend label spelling.
+
+experimental__rn_harmony__local_key_count:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__local_key_count
+  family: rn_harmony
+  description: Number of distinct local keys observed.
+  musicological_claim: Rough proxy for modulation activity.
+  known_limits: Depends on local key inference quality.
+
+experimental__rn_harmony__modulation_density:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__modulation_density
+  family: rn_harmony
+  description: Local key changes per quarter note.
+  musicological_claim: Approximates how often tonal context shifts.
+  known_limits: Overreads short fragments and tonicization.
+
+experimental__rn_harmony__tonic_function_ratio:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__tonic_function_ratio
+  family: rn_harmony
+  description: Share of tonic-function events.
+  musicological_claim: May reflect tonal clarity and closure.
+  known_limits: Function buckets are heuristic.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__rn_harmony__dominant_function_ratio:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__dominant_function_ratio
+  family: rn_harmony
+  description: Share of dominant-function events.
+  musicological_claim: May reflect tension-preparation activity.
+  known_limits: Functional labels are approximate.
+
+experimental__rn_harmony__predominant_function_ratio:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__predominant_function_ratio
+  family: rn_harmony
+  description: Share of predominant-function events.
+  musicological_claim: May reflect preparation before cadential motion.
+  known_limits: Functional buckets are heuristic.
+
+experimental__rn_harmony__unknown_function_ratio:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__unknown_function_ratio
+  family: rn_harmony
+  description: Share of events that could not be assigned a function.
+  musicological_claim: Can expose analysis uncertainty.
+  known_limits: A backend quality indicator, not a style feature.
+
+experimental__rn_harmony__applied_dominant_ratio:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__applied_dominant_ratio
+  family: rn_harmony
+  description: Ratio of applied or secondary dominant events.
+  musicological_claim: May capture chromaticized dominant syntax.
+  known_limits: Highly backend dependent.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__rn_harmony__secondary_function_ratio:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__secondary_function_ratio
+  family: rn_harmony
+  description: Ratio of secondary-function events.
+  musicological_claim: Tracks tonicization and applied harmony.
+  known_limits: Sensitive to local key inference.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__rn_harmony__modal_mixture_ratio:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__modal_mixture_ratio
+  family: rn_harmony
+  description: Ratio of mixture-like events.
+  musicological_claim: May indicate borrowed harmony and coloristic mixture.
+  known_limits: Mixture detection is heuristic.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__rn_harmony__chromatic_function_ratio:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__chromatic_function_ratio
+  family: rn_harmony
+  description: Ratio of chromatic-function events.
+  musicological_claim: Captures chromatic functional syntax broadly.
+  known_limits: Depends on label spelling and detection heuristics.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__rn_harmony__non_diatonic_root_ratio:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__non_diatonic_root_ratio
+  family: rn_harmony
+  description: Ratio of events whose root is outside the inferred key collection.
+  musicological_claim: May capture non-diatonic harmony directly.
+  known_limits: Strongly tied to key estimation quality.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__rn_harmony__diminished_chord_ratio:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__diminished_chord_ratio
+  family: rn_harmony
+  description: Ratio of diminished events.
+  musicological_claim: May reflect chromatic tension and voice-leading pressure.
+  known_limits: Accidentals and spelling can mislead the detector.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__rn_harmony__augmented_sixth_like_ratio:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__augmented_sixth_like_ratio
+  family: rn_harmony
+  description: Ratio of augmented-sixth-like events.
+  musicological_claim: May capture late-classical and romantic chromatic cadential color.
+  known_limits: Only approximate in this backend.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__rn_harmony__neapolitan_like_ratio:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__neapolitan_like_ratio
+  family: rn_harmony
+  description: Ratio of Neapolitan-like events.
+  musicological_claim: May capture flat-II cadential color.
+  known_limits: Detection is spelling-sensitive.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__rn_harmony__cadence_like_V_I_density:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__cadence_like_V_I_density
+  family: rn_harmony
+  description: Density of dominant-to-tonic cadence-like motion.
+  musicological_claim: Approximates cadential closure.
+  known_limits: Very rough on short excerpts.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__rn_harmony__cadence_like_iv_v_i_or_ii_v_i_density:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__cadence_like_iv_v_i_or_ii_v_i_density
+  family: rn_harmony
+  description: Density of predominant-dominant-tonic cadence-like motion.
+  musicological_claim: Approximates classical cadential syntax.
+  known_limits: Depends on coarse function grouping.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__rn_harmony__deceptive_motion_density:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__deceptive_motion_density
+  family: rn_harmony
+  description: Density of dominant motion that avoids tonic closure.
+  musicological_claim: May capture deceptive resolution behavior.
+  known_limits: Simplified definition.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__rn_harmony__dominant_prolongation_ratio:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__dominant_prolongation_ratio
+  family: rn_harmony
+  description: Ratio of adjacent dominant-function events.
+  musicological_claim: May capture prolonged dominant tension.
+  known_limits: Sensitive to event segmentation.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__rn_harmony__mean_cadence_spacing:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__mean_cadence_spacing
+  family: rn_harmony
+  description: Mean spacing between cadence-like events.
+  musicological_claim: Approximates harmonic cadence pacing.
+  known_limits: Sparse on short fragments.
+
+experimental__rn_harmony__cadence_spacing_variance:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__cadence_spacing_variance
+  family: rn_harmony
+  description: Variance in cadence-like spacing.
+  musicological_claim: Captures cadence regularity versus irregularity.
+  known_limits: Unstable with few cadence candidates.
+
+experimental__rn_harmony__harmonic_rhythm_mean:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__harmonic_rhythm_mean
+  family: rn_harmony
+  description: Mean duration of Roman numeral events.
+  musicological_claim: Measures average harmonic rhythm.
+  known_limits: Depends on chordification duration granularity.
+
+experimental__rn_harmony__harmonic_rhythm_median:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__harmonic_rhythm_median
+  family: rn_harmony
+  description: Median duration of Roman numeral events.
+  musicological_claim: Robust harmonic rhythm summary.
+  known_limits: Still coarse.
+
+experimental__rn_harmony__harmonic_rhythm_variance:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__harmonic_rhythm_variance
+  family: rn_harmony
+  description: Variance in Roman numeral duration.
+  musicological_claim: Measures harmonic rhythm variability.
+  known_limits: Sensitive to segmentation noise.
+
+experimental__rn_harmony__harmonic_rhythm_entropy:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__harmonic_rhythm_entropy
+  family: rn_harmony
+  description: Entropy over Roman numeral durations.
+  musicological_claim: Captures rhythmic diversity in harmony changes.
+  known_limits: Bins are approximate.
+
+experimental__rn_harmony__short_harmony_ratio:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__short_harmony_ratio
+  family: rn_harmony
+  description: Share of short-duration harmonic events.
+  musicological_claim: May reflect quicker harmonic turnover.
+  known_limits: Threshold is arbitrary.
+
+experimental__rn_harmony__long_harmony_ratio:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__long_harmony_ratio
+  family: rn_harmony
+  description: Share of long-duration harmonic events.
+  musicological_claim: May reflect prolongation.
+  known_limits: Threshold is arbitrary.
+
+experimental__rn_harmony__rn_bigram_entropy:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__rn_bigram_entropy
+  family: rn_harmony
+  description: Entropy of adjacent Roman numeral label bigrams.
+  musicological_claim: Captures local harmonic syntax diversity.
+  known_limits: Strongly sensitive to label spelling.
+
+experimental__rn_harmony__circle_of_fifths_motion_ratio:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__circle_of_fifths_motion_ratio
+  family: rn_harmony
+  description: Ratio of root motions by fifth.
+  musicological_claim: Captures circle-of-fifths motion.
+  known_limits: Root inference is approximate.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__rn_harmony__root_motion_step_ratio:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__root_motion_step_ratio
+  family: rn_harmony
+  description: Ratio of small root motions.
+  musicological_claim: May reflect stepwise harmonic movement.
+  known_limits: Root motion classes are simplified.
+
+experimental__rn_harmony__root_motion_fifth_ratio:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__root_motion_fifth_ratio
+  family: rn_harmony
+  description: Ratio of fifth-based root motions.
+  musicological_claim: Tracks dominant-tonic style motion.
+  known_limits: Depends on root estimation.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__rn_harmony__root_motion_third_ratio:
+  <<: *rn_defaults
+  name: experimental__rn_harmony__root_motion_third_ratio
+  family: rn_harmony
+  description: Ratio of third-based root motions.
+  musicological_claim: May capture chromatic mediant and third-related shifts.
+  known_limits: Root motion classes are approximate.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__harmony_texture__mean_notes_per_onset_during_dominant:
+  <<: *texture_defaults
+  name: experimental__harmony_texture__mean_notes_per_onset_during_dominant
+  family: harmony_texture
+  description: Mean note count per onset during dominant-function windows.
+  musicological_claim: Captures how dominant harmony is voiced texturally.
+  known_limits: Uses onset-group heuristics.
+
+experimental__harmony_texture__mean_notes_per_onset_during_tonic:
+  <<: *texture_defaults
+  name: experimental__harmony_texture__mean_notes_per_onset_during_tonic
+  family: harmony_texture
+  description: Mean note count per onset during tonic-function windows.
+  musicological_claim: Captures tonic texture density.
+  known_limits: Uses onset-group heuristics.
+
+experimental__harmony_texture__register_span_during_chromatic_harmony:
+  <<: *texture_defaults
+  name: experimental__harmony_texture__register_span_during_chromatic_harmony
+  family: harmony_texture
+  description: Register span during chromatic harmony.
+  musicological_claim: May capture pianistic widening under chromatic syntax.
+  known_limits: Very approximate with chordified scores.
+
+experimental__harmony_texture__arpeggiation_during_chromatic_harmony:
+  <<: *texture_defaults
+  name: experimental__harmony_texture__arpeggiation_during_chromatic_harmony
+  family: harmony_texture
+  description: Arpeggiation proxy during chromatic harmony.
+  musicological_claim: May capture broken-chord figuration under chromatic harmony.
+  known_limits: Contour heuristic only.
+
+experimental__harmony_texture__accompaniment_continuity_during_dominant:
+  <<: *texture_defaults
+  name: experimental__harmony_texture__accompaniment_continuity_during_dominant
+  family: harmony_texture
+  description: Continuity proxy for accompaniment during dominant windows.
+  musicological_claim: May reflect sustained accompaniment under tension.
+  known_limits: Lower-register proxy only.
+
+experimental__harmony_texture__bass_motion_rate_during_chromatic_harmony:
+  <<: *texture_defaults
+  name: experimental__harmony_texture__bass_motion_rate_during_chromatic_harmony
+  family: harmony_texture
+  description: Bass motion rate during chromatic harmony.
+  musicological_claim: May capture chromatic bass activity.
+  known_limits: Bass extraction is heuristic.
+
+experimental__harmony_texture__simultaneity_ratio_during_cadential_harmony:
+  <<: *texture_defaults
+  name: experimental__harmony_texture__simultaneity_ratio_during_cadential_harmony
+  family: harmony_texture
+  description: Ratio of multi-note onsets in cadential windows.
+  musicological_claim: May capture homophonic cadence presentation.
+  known_limits: Cadence windows are approximate.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__harmony_texture__texture_change_at_harmonic_change_ratio:
+  <<: *texture_defaults
+  name: experimental__harmony_texture__texture_change_at_harmonic_change_ratio
+  family: harmony_texture
+  description: Ratio of large texture shifts at harmonic changes.
+  musicological_claim: May capture texture/harmony coupling.
+  known_limits: Sensitive to threshold choice.
+
+experimental__harmony_melody__melody_chord_tone_ratio:
+  <<: *melody_defaults
+  name: experimental__harmony_melody__melody_chord_tone_ratio
+  family: harmony_melody
+  description: Ratio of melody notes that are chord tones.
+  musicological_claim: May capture melodic consonance with harmony.
+  known_limits: Melody extraction is approximate.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__harmony_melody__melody_non_chord_tone_ratio:
+  <<: *melody_defaults
+  name: experimental__harmony_melody__melody_non_chord_tone_ratio
+  family: harmony_melody
+  description: Ratio of melody notes that are non-chord tones.
+  musicological_claim: May capture melodic tension over harmony.
+  known_limits: Depends on top-line heuristic.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__harmony_melody__accented_non_chord_tone_ratio:
+  <<: *melody_defaults
+  name: experimental__harmony_melody__accented_non_chord_tone_ratio
+  family: harmony_melody
+  description: Ratio of accented melody notes that are non-chord tones.
+  musicological_claim: May capture accented dissonance.
+  known_limits: Strong-beat detection is heuristic.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__harmony_melody__chromatic_non_chord_tone_ratio:
+  <<: *melody_defaults
+  name: experimental__harmony_melody__chromatic_non_chord_tone_ratio
+  family: harmony_melody
+  description: Ratio of chromatic non-chord tones in the melody.
+  musicological_claim: May capture chromatic melodic expressivity.
+  known_limits: Requires approximate key inference.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__harmony_melody__stepwise_resolution_ratio:
+  <<: *melody_defaults
+  name: experimental__harmony_melody__stepwise_resolution_ratio
+  family: harmony_melody
+  description: Ratio of non-chord tones that resolve by step.
+  musicological_claim: May capture classical-style resolution behavior.
+  known_limits: Simplified resolution window.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__harmony_melody__mean_resolution_delay:
+  <<: *melody_defaults
+  name: experimental__harmony_melody__mean_resolution_delay
+  family: harmony_melody
+  description: Mean delay between non-chord tone and its resolution.
+  musicological_claim: May capture delayed resolution behavior.
+  known_limits: Resolution matching is heuristic.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__harmony_melody__melody_on_chord_root_ratio:
+  <<: *melody_defaults
+  name: experimental__harmony_melody__melody_on_chord_root_ratio
+  family: harmony_melody
+  description: Ratio of melody notes on the chord root.
+  musicological_claim: May capture root-centered melodic writing.
+  known_limits: Depends on chord root inference.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__harmony_melody__melody_on_third_ratio:
+  <<: *melody_defaults
+  name: experimental__harmony_melody__melody_on_third_ratio
+  family: harmony_melody
+  description: Ratio of melody notes on the chord third.
+  musicological_claim: May capture triadic melodic outlines.
+  known_limits: Third detection is approximate.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__harmony_melody__melody_on_seventh_ratio:
+  <<: *melody_defaults
+  name: experimental__harmony_melody__melody_on_seventh_ratio
+  family: harmony_melody
+  description: Ratio of melody notes on the chord seventh.
+  musicological_claim: May capture tension-bearing chordal extensions.
+  known_limits: Seventh inference is approximate.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__harmony_melody__melodic_dissonance_on_strong_beat_ratio:
+  <<: *melody_defaults
+  name: experimental__harmony_melody__melodic_dissonance_on_strong_beat_ratio
+  family: harmony_melody
+  description: Ratio of strong-beat melodic dissonances.
+  musicological_claim: May capture accented dissonance against harmony.
+  known_limits: Beat-strength heuristic only.
+  expected_direction_mozart_vs_chopin: higher_in_chopin

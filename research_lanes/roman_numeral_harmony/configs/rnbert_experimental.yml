@@ -1,0 +1,13 @@
+backend: rnbert
+optional_backend: music21_light
+cache_results: true
+input_format: musicxml
+output_event_format: csv
+save_intermediate: true
+feature_output_format: csv
+pairwise_similarity: true
+run_feature_audit: true
+save_manifest: true
+model_name: null
+checkpoint_path: null
+notes: Experimental configuration for a future RNBert or MusicBERT-style Roman numeral backend. This repository does not require the model stack and the backend may report unavailable.

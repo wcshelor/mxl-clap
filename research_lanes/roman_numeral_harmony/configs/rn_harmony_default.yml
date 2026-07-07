@@ -1,0 +1,11 @@
+backend: music21_light
+optional_backend: rnbert
+cache_results: true
+input_format: musicxml
+output_event_format: csv
+save_intermediate: true
+feature_output_format: csv
+pairwise_similarity: true
+run_feature_audit: true
+save_manifest: true
+notes: Default configuration for the experimental Roman numeral harmony lane. The default backend is lightweight and does not require a separate model checkpoint.

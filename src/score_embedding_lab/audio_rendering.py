@@ -7,6 +7,7 @@ import subprocess
 from pathlib import Path
 
 from music21 import instrument
+from music21.repeat import ExpanderException
 
 DEFAULT_SAMPLE_RATE = 48000
 
@@ -49,11 +50,18 @@ def _coerce_score_to_piano(score):
 
 
 def write_midi(score, out_path: str | Path):
-    """Write a piano-oriented MIDI file from a music21 score."""
+    """Write a piano-oriented MIDI file from a music21 score.
+
+    If music21 cannot expand malformed repeats, fall back to a flattened
+    stream so audio rendering can still proceed.
+    """
     out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     piano_score = _coerce_score_to_piano(score)
-    piano_score.write("midi", fp=str(out_path))
+    try:
+        piano_score.write("midi", fp=str(out_path))
+    except ExpanderException:
+        piano_score.flatten().write("midi", fp=str(out_path))
     return out_path
 
 
