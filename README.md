@@ -138,7 +138,8 @@ That writes `audio_embeddings.npy` and `embedding_metadata.csv` into the output 
 ## External Prerequisites
 
 - `fluidsynth` must be installed and available on `PATH`.
-- A General MIDI soundfont must be available locally and pointed to by `MXL_CLAP_SOUND_FONT` or `--soundfont`.
+- A General MIDI soundfont (`.sf2`) must be available locally if you want to render MIDI to WAV or compute new audio embeddings.
+- Point the renderer at it with `--soundfont /absolute/path/to/file.sf2` or set `MXL_CLAP_SOUND_FONT=/absolute/path/to/file.sf2` in your shell. The code also accepts the alias `MXL_CLAP_SOUNDFONT`.
 - The CLAP backend is not vendored. Install `laion-clap` in the environment before using `scripts/compute_embeddings.py` with the default backend.
 - The dummy backend is available without CLAP and is intended for end-to-end pipeline smoke tests.
 - `scripts/compare_excerpts.py` now writes family-specific similarity columns alongside the global score.
