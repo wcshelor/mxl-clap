@@ -1,0 +1,13 @@
+music21>=9.1
+numpy>=1.26
+pandas>=2.2
+scipy>=1.11
+scikit-learn>=1.4
+matplotlib>=3.8
+tqdm>=4.66
+pytest>=8.0
+
+# Optional future CLAP backends:
+# msclap
+# laion-clap
+# transformers

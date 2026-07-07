@@ -1,0 +1,458 @@
+_chromaticism_defaults: &chromaticism_defaults
+  family: chromaticism
+  feature_set: experimental_chromaticism_v0
+  status: experimental
+  musicological_claim: May capture chromatic pitch inflection and key-relative pitch color.
+  known_limits: Key-relative measures depend on inferred tonal context and can be noisy in dense or modulatory excerpts.
+  requires_key_estimation: false
+  requires_chordify: false
+  requires_roman_numeral_backend: false
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+  risk_level: medium
+
+_texture_defaults: &texture_defaults
+  family: texture
+  feature_set: experimental_texture_v0
+  status: experimental
+  musicological_claim: May capture piano texture thickness, hand separation, and accompanimental activity.
+  known_limits: These are broad score-level proxies and are not a substitute for true voice separation.
+  requires_key_estimation: false
+  requires_chordify: false
+  requires_roman_numeral_backend: false
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+  risk_level: medium
+
+_rhythm_defaults: &rhythm_defaults
+  family: rhythm_phrase
+  feature_set: experimental_rhythm_phrase_v0
+  status: experimental
+  musicological_claim: May capture rhythmic regularity, density cycles, and phrase-like periodicity proxies.
+  known_limits: These measures are coarse and should be treated as hypothesis-generating rather than true phrase detection.
+  requires_key_estimation: false
+  requires_chordify: false
+  requires_roman_numeral_backend: false
+  expected_direction_mozart_vs_chopin: unclear
+  risk_level: medium
+
+_harmony_light_defaults: &harmony_light_defaults
+  family: harmony_light
+  feature_set: experimental_harmony_light_v0
+  status: experimental
+  musicological_claim: May capture coarse vertical sonority and harmonic rhythm behavior from chordified score slices.
+  known_limits: Chordify-based verticalities collapse many contrapuntal details and can over-simplify short piano excerpts.
+  requires_key_estimation: false
+  requires_chordify: true
+  requires_roman_numeral_backend: false
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+  risk_level: medium
+
+_harmony_heavy_defaults: &harmony_heavy_defaults
+  family: harmony_heavy
+  feature_set: experimental_harmony_heavy_v0
+  status: experimental
+  musicological_claim: May capture a functional-harmony proxy based on automatic Roman numeral analysis.
+  known_limits: Roman numeral analysis is backend-dependent and can be unstable on fragments, chromatic passages, or non-idiomatic textures.
+  requires_key_estimation: true
+  requires_chordify: true
+  requires_roman_numeral_backend: true
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+  risk_level: high
+
+_syntax_defaults: &syntax_defaults
+  family: syntax_interaction
+  feature_set: experimental_syntax_interaction_v0
+  status: experimental
+  musicological_claim: May capture approximate dissonance preparation, resolution, and cadence-like motion.
+  known_limits: These are heuristic interaction proxies and do not claim to detect syntax in a strict theoretical sense.
+  requires_key_estimation: false
+  requires_chordify: true
+  requires_roman_numeral_backend: false
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+  risk_level: high
+
+experimental__chromaticism__accidental_density:
+  <<: *chromaticism_defaults
+  name: experimental__chromaticism__accidental_density
+  description: Experimental proxy for accidental density.
+  musicological_claim: May reflect denser notated chromatic inflection.
+  known_limits: Counts written accidentals only and can be distorted by enharmonic spelling or dense textures.
+
+experimental__chromaticism__out_of_key_pitch_ratio:
+  <<: *chromaticism_defaults
+  name: experimental__chromaticism__out_of_key_pitch_ratio
+  description: Experimental proxy for out-of-key pitch ratio.
+  requires_key_estimation: true
+  musicological_claim: May indicate more non-diatonic pitch content relative to an inferred key.
+  known_limits: Depends on key inference and can be unstable in modulatory or fragmentary excerpts.
+
+experimental__chromaticism__chromatic_step_ratio:
+  <<: *chromaticism_defaults
+  name: experimental__chromaticism__chromatic_step_ratio
+  description: Legacy alias for the melodic semitone motion ratio.
+  musicological_claim: May reflect more semitone motion in the extracted melodic stream.
+  known_limits: Uses a single representative pitch per event and can miss inner-voice or accompaniment chromaticism.
+
+experimental__chromaticism__melodic_semitone_motion_ratio:
+  <<: *chromaticism_defaults
+  name: experimental__chromaticism__melodic_semitone_motion_ratio
+  description: Experimental proxy for melodic semitone motion ratio.
+  musicological_claim: May reflect more semitone motion in the extracted melodic stream.
+  known_limits: Uses a single representative pitch per event and can miss inner-voice or accompaniment chromaticism.
+
+experimental__chromaticism__pitch_class_entropy:
+  <<: *chromaticism_defaults
+  name: experimental__chromaticism__pitch_class_entropy
+  description: Experimental proxy for pitch class entropy.
+  musicological_claim: May reflect a broader spread of pitch classes.
+  known_limits: Pitch-class entropy is a coarse distribution proxy and does not distinguish function from ornament.
+
+experimental__chromaticism__non_diatonic_pitch_class_count:
+  <<: *chromaticism_defaults
+  name: experimental__chromaticism__non_diatonic_pitch_class_count
+  description: Experimental proxy for non-diatonic pitch class count.
+  requires_key_estimation: true
+  musicological_claim: May reflect how many pitch classes fall outside an inferred diatonic collection.
+  known_limits: A single wrong key estimate can shift the count substantially.
+
+experimental__texture__mean_notes_per_onset:
+  <<: *texture_defaults
+  name: experimental__texture__mean_notes_per_onset
+  description: Experimental proxy for mean notes per onset.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__texture__max_notes_per_onset:
+  <<: *texture_defaults
+  name: experimental__texture__max_notes_per_onset
+  description: Experimental proxy for max notes per onset.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__texture__simultaneity_ratio:
+  <<: *texture_defaults
+  name: experimental__texture__simultaneity_ratio
+  description: Experimental proxy for simultaneity ratio.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__texture__single_note_event_ratio:
+  <<: *texture_defaults
+  name: experimental__texture__single_note_event_ratio
+  description: Experimental proxy for single note event ratio.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+  musicological_claim: May reflect more monophonic or lightly textured writing.
+  known_limits: Event-based counts can miss contrapuntal layering when multiple lines align on the same onset.
+
+experimental__texture__register_span_mean:
+  <<: *texture_defaults
+  name: experimental__texture__register_span_mean
+  description: Experimental proxy for mean register span.
+
+experimental__texture__register_span_max:
+  <<: *texture_defaults
+  name: experimental__texture__register_span_max
+  description: Experimental proxy for max register span.
+
+experimental__texture__onset_density_per_quarter:
+  <<: *texture_defaults
+  name: experimental__texture__onset_density_per_quarter
+  description: Experimental proxy for onset density per quarter.
+
+experimental__texture__left_right_register_gap_mean:
+  <<: *texture_defaults
+  name: experimental__texture__left_right_register_gap_mean
+  description: Experimental proxy for left-right register gap mean.
+  risk_level: high
+
+experimental__texture__bass_motion_rate:
+  <<: *texture_defaults
+  name: experimental__texture__bass_motion_rate
+  description: Experimental proxy for bass motion rate.
+
+experimental__texture__accompaniment_continuity_proxy:
+  <<: *texture_defaults
+  name: experimental__texture__accompaniment_continuity_proxy
+  description: Experimental proxy for accompaniment continuity.
+  risk_level: high
+
+experimental__texture__arpeggiation_proxy:
+  <<: *texture_defaults
+  name: experimental__texture__arpeggiation_proxy
+  description: Experimental proxy for arpeggiation behavior.
+  risk_level: high
+
+experimental__rhythm_phrase__duration_entropy:
+  <<: *rhythm_defaults
+  name: experimental__rhythm_phrase__duration_entropy
+  description: Experimental proxy for duration entropy.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__rhythm_phrase__ioi_entropy:
+  <<: *rhythm_defaults
+  name: experimental__rhythm_phrase__ioi_entropy
+  description: Experimental proxy for inter-onset interval entropy.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__rhythm_phrase__short_note_ratio:
+  <<: *rhythm_defaults
+  name: experimental__rhythm_phrase__short_note_ratio
+  description: Experimental proxy for short note ratio.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__rhythm_phrase__long_note_ratio:
+  <<: *rhythm_defaults
+  name: experimental__rhythm_phrase__long_note_ratio
+  description: Experimental proxy for long note ratio.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__rhythm_phrase__measure_density_variance:
+  <<: *rhythm_defaults
+  name: experimental__rhythm_phrase__measure_density_variance
+  description: Experimental proxy for measure density variance.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__rhythm_phrase__measure_density_regularity:
+  <<: *rhythm_defaults
+  name: experimental__rhythm_phrase__measure_density_regularity
+  description: Experimental proxy for measure density regularity.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__rhythm_phrase__four_bar_density_periodicity_score:
+  <<: *rhythm_defaults
+  name: experimental__rhythm_phrase__four_bar_density_periodicity_score
+  description: Experimental proxy for four-bar density periodicity.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__rhythm_phrase__repeated_rhythm_pattern_ratio:
+  <<: *rhythm_defaults
+  name: experimental__rhythm_phrase__repeated_rhythm_pattern_ratio
+  description: Experimental proxy for repeated rhythm pattern ratio.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__rhythm_phrase__rest_punctuation_ratio:
+  <<: *rhythm_defaults
+  name: experimental__rhythm_phrase__rest_punctuation_ratio
+  description: Experimental proxy for rest punctuation.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__rhythm_phrase__end_of_measure_long_note_ratio:
+  <<: *rhythm_defaults
+  name: experimental__rhythm_phrase__end_of_measure_long_note_ratio
+  description: Experimental proxy for end-of-measure long note ratio.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__harmony_light__chordified_event_count:
+  <<: *harmony_light_defaults
+  name: experimental__harmony_light__chordified_event_count
+  description: Experimental proxy for chordified event count.
+  expected_direction_mozart_vs_chopin: unclear
+
+experimental__harmony_light__triad_ratio:
+  <<: *harmony_light_defaults
+  name: experimental__harmony_light__triad_ratio
+  description: Experimental proxy for triad ratio.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__harmony_light__seventh_chord_ratio:
+  <<: *harmony_light_defaults
+  name: experimental__harmony_light__seventh_chord_ratio
+  description: Experimental proxy for seventh chord ratio.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__harmony_light__dissonant_verticality_ratio:
+  <<: *harmony_light_defaults
+  name: experimental__harmony_light__dissonant_verticality_ratio
+  description: Experimental proxy for dissonant verticality ratio.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__harmony_light__chord_common_name_entropy:
+  <<: *harmony_light_defaults
+  name: experimental__harmony_light__chord_common_name_entropy
+  description: Experimental proxy for chord common name entropy.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__harmony_light__harmonic_rhythm_mean:
+  <<: *harmony_light_defaults
+  name: experimental__harmony_light__harmonic_rhythm_mean
+  description: Experimental proxy for harmonic rhythm mean.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__harmony_light__harmonic_rhythm_variance:
+  <<: *harmony_light_defaults
+  name: experimental__harmony_light__harmonic_rhythm_variance
+  description: Experimental proxy for harmonic rhythm variance.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__harmony_light__vertical_chromaticity_ratio:
+  <<: *harmony_light_defaults
+  name: experimental__harmony_light__vertical_chromaticity_ratio
+  description: Experimental proxy for vertical chromaticity ratio.
+  requires_key_estimation: true
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__harmony_heavy__tonic_ratio:
+  <<: *harmony_heavy_defaults
+  name: experimental__harmony_heavy__tonic_ratio
+  description: Experimental proxy for tonic ratio.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__harmony_heavy__dominant_ratio:
+  <<: *harmony_heavy_defaults
+  name: experimental__harmony_heavy__dominant_ratio
+  description: Experimental proxy for dominant ratio.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__harmony_heavy__predominant_ratio:
+  <<: *harmony_heavy_defaults
+  name: experimental__harmony_heavy__predominant_ratio
+  description: Experimental proxy for predominant ratio.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__harmony_heavy__applied_dominant_ratio:
+  <<: *harmony_heavy_defaults
+  name: experimental__harmony_heavy__applied_dominant_ratio
+  description: Experimental proxy for applied dominant ratio.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__harmony_heavy__secondary_function_ratio:
+  <<: *harmony_heavy_defaults
+  name: experimental__harmony_heavy__secondary_function_ratio
+  description: Experimental proxy for secondary function ratio.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__harmony_heavy__modal_mixture_ratio:
+  <<: *harmony_heavy_defaults
+  name: experimental__harmony_heavy__modal_mixture_ratio
+  description: Experimental proxy for modal mixture ratio.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__harmony_heavy__chromatic_chord_ratio:
+  <<: *harmony_heavy_defaults
+  name: experimental__harmony_heavy__chromatic_chord_ratio
+  description: Experimental proxy for chromatic chord ratio.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__harmony_heavy__diminished_chord_ratio:
+  <<: *harmony_heavy_defaults
+  name: experimental__harmony_heavy__diminished_chord_ratio
+  description: Experimental proxy for diminished chord ratio.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__harmony_heavy__seventh_chord_ratio:
+  <<: *harmony_heavy_defaults
+  name: experimental__harmony_heavy__seventh_chord_ratio
+  description: Experimental proxy for seventh chord ratio.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__harmony_heavy__non_diatonic_root_ratio:
+  <<: *harmony_heavy_defaults
+  name: experimental__harmony_heavy__non_diatonic_root_ratio
+  description: Experimental proxy for non-diatonic root ratio.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__harmony_heavy__modulation_count:
+  <<: *harmony_heavy_defaults
+  name: experimental__harmony_heavy__modulation_count
+  description: Experimental proxy for modulation count.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__harmony_heavy__local_key_count:
+  <<: *harmony_heavy_defaults
+  name: experimental__harmony_heavy__local_key_count
+  description: Experimental proxy for local key count.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__harmony_heavy__mean_harmonic_rhythm:
+  <<: *harmony_heavy_defaults
+  name: experimental__harmony_heavy__mean_harmonic_rhythm
+  description: Experimental proxy for mean harmonic rhythm.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__harmony_heavy__harmonic_rhythm_variance:
+  <<: *harmony_heavy_defaults
+  name: experimental__harmony_heavy__harmonic_rhythm_variance
+  description: Experimental proxy for harmonic rhythm variance.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__harmony_heavy__cadence_like_V_I_count:
+  <<: *harmony_heavy_defaults
+  name: experimental__harmony_heavy__cadence_like_V_I_count
+  description: Experimental proxy for cadence-like V-I count.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__harmony_heavy__deceptive_motion_count:
+  <<: *harmony_heavy_defaults
+  name: experimental__harmony_heavy__deceptive_motion_count
+  description: Experimental proxy for deceptive motion count.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__harmony_heavy__rn_backend_available:
+  <<: *harmony_heavy_defaults
+  name: experimental__harmony_heavy__rn_backend_available
+  description: Availability flag for the Roman numeral backend.
+  requires_key_estimation: false
+  requires_chordify: false
+  requires_roman_numeral_backend: false
+  expected_direction_mozart_vs_chopin: unclear
+  risk_level: low
+
+experimental__harmony_heavy__rn_event_count:
+  <<: *harmony_heavy_defaults
+  name: experimental__harmony_heavy__rn_event_count
+  description: Count of Roman numeral events returned by the backend.
+  requires_key_estimation: false
+  requires_chordify: false
+  requires_roman_numeral_backend: false
+  expected_direction_mozart_vs_chopin: unclear
+  risk_level: low
+
+experimental__syntax_interaction__non_chord_tone_ratio:
+  <<: *syntax_defaults
+  name: experimental__syntax_interaction__non_chord_tone_ratio
+  description: Experimental proxy for non-chord tone ratio.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__syntax_interaction__accented_non_chord_tone_ratio:
+  <<: *syntax_defaults
+  name: experimental__syntax_interaction__accented_non_chord_tone_ratio
+  description: Experimental proxy for accented non-chord tone ratio.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__syntax_interaction__resolved_stepwise_ratio:
+  <<: *syntax_defaults
+  name: experimental__syntax_interaction__resolved_stepwise_ratio
+  description: Experimental proxy for resolved stepwise ratio.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__syntax_interaction__mean_resolution_delay:
+  <<: *syntax_defaults
+  name: experimental__syntax_interaction__mean_resolution_delay
+  description: Experimental proxy for mean resolution delay.
+  expected_direction_mozart_vs_chopin: unclear
+
+experimental__syntax_interaction__unresolved_dissonance_ratio:
+  <<: *syntax_defaults
+  name: experimental__syntax_interaction__unresolved_dissonance_ratio
+  description: Experimental proxy for unresolved dissonance ratio.
+  expected_direction_mozart_vs_chopin: higher_in_chopin
+
+experimental__syntax_interaction__cadence_spacing_mean:
+  <<: *syntax_defaults
+  name: experimental__syntax_interaction__cadence_spacing_mean
+  description: Experimental proxy for cadence spacing mean.
+  expected_direction_mozart_vs_chopin: unclear
+
+experimental__syntax_interaction__cadence_spacing_variance:
+  <<: *syntax_defaults
+  name: experimental__syntax_interaction__cadence_spacing_variance
+  description: Experimental proxy for cadence spacing variance.
+  expected_direction_mozart_vs_chopin: unclear
+
+experimental__syntax_interaction__dominant_arrival_density:
+  <<: *syntax_defaults
+  name: experimental__syntax_interaction__dominant_arrival_density
+  description: Experimental proxy for dominant arrival density.
+  expected_direction_mozart_vs_chopin: higher_in_mozart
+
+experimental__syntax_interaction__dissonance_on_strong_beat_ratio:
+  <<: *syntax_defaults
+  name: experimental__syntax_interaction__dissonance_on_strong_beat_ratio
+  description: Experimental proxy for dissonance on strong beat ratio.
+  expected_direction_mozart_vs_chopin: higher_in_chopin

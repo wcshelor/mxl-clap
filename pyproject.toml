@@ -1,0 +1,31 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mxl-clap"
+version = "0.1.0"
+description = "Tiny scaffold for excerpting MusicXML, rendering piano audio, and comparing embeddings"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "music21>=9.1",
+  "numpy>=1.26",
+  "pandas>=2.2",
+  "scipy>=1.11",
+  "scikit-learn>=1.4",
+  "matplotlib>=3.8",
+  "tqdm>=4.66",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0",
+  "ipykernel>=6.29",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]

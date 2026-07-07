@@ -1,0 +1,12 @@
+feature_name,family,min,max,mean,std,unique_values,missing_values,coefficient_of_variation,near_constant
+experimental__texture__register_span_max,experimental_texture,41.0,64.0,49.1,6.941901756723442,13,0,0.141382927835508,False
+experimental__texture__simultaneity_ratio,experimental_texture,0.41509433962264153,1.0,0.848755274680147,0.17690570836414962,11,0,0.2084295834636391,False
+experimental__texture__left_right_register_gap_mean,experimental_texture,12.40362607633499,28.456521739130434,16.001088517901056,3.5924656730021276,18,0,0.22451383035492198,False
+experimental__texture__single_note_event_ratio,experimental_texture,0.3110236220472441,0.9893899204244032,0.752968989598328,0.18086430589185037,18,0,0.24020153338364253,False
+experimental__texture__register_span_mean,experimental_texture,9.35897435897436,42.05555555555556,22.873735450467834,8.567109884777404,18,0,0.3745391697534117,False
+experimental__texture__max_notes_per_onset,experimental_texture,62.0,243.0,127.85,53.2618766098229,18,0,0.4165966101667806,False
+experimental__texture__onset_density_per_quarter,experimental_texture,0.0703125,0.3229166666666667,0.17763627310605745,0.07863442028279106,16,0,0.4426709641439196,False
+experimental__texture__mean_notes_per_onset,experimental_texture,12.743589743589743,91.38888888888889,36.58726341600901,17.313024131543376,18,0,0.47319811636876735,False
+experimental__texture__arpeggiation_proxy,experimental_texture,0.01073345259391771,0.1079607415485278,0.05206785936336243,0.025883274162423052,18,0,0.4971065543869051,False
+experimental__texture__bass_motion_rate,experimental_texture,0.21875,2.28125,0.8605453846338789,0.48021743448616283,18,0,0.558038475437844,False
+experimental__texture__accompaniment_continuity_proxy,experimental_texture,0.0,0.40821917808219177,0.18129787074538875,0.13534741263851585,18,0,0.7465471716906987,False
